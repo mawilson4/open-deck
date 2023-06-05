@@ -120,12 +120,11 @@ def build_zip(
     Create a zip file containing the images for the given deck configuration.
     """
     with ZipFile(f"dist/{filename}", "w") as zfile:
-        for suit in suits:
-            for value in values:
-                card = f"{suit}{value}.jpg"
-                zfile.write(f"images/{card}", card)
-        for joker in jokers:
-            card = f"joker{joker}.jpg"
+        for card in (
+            [f"{suit}{value}.jpg" for suit in suits for value in values]
+            + [f"joker{joker}.jpg" for joker in jokers]
+            + [f"back{back}.jpg" for back in ("1", "2")]
+        ):
             zfile.write(f"images/{card}", card)
 
 
